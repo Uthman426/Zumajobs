@@ -26,7 +26,7 @@ const Threepics = ()=>{
 
 
     return(
-            <div className="flex gap-4 mx-auto w-[80%] ">
+            <div className="flex gap-4 mx-auto w-[75%] rounded ">
         {
             pics.map((items,index)=>(
                 <div key={index} className="w-80 h-120 shadow-md rounded hover:-mt-2 hover:transform ">

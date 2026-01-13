@@ -57,7 +57,7 @@ const About = () => {
 
                             <div className="flex mt-10 gap-5">
                                 <div>
-                                    <img className="w-[18%]" src="/icons/bob image.jpg" alt="geek" />
+                                    <img className="w-[18%]" src="/icons/bob-image.jpg" alt="geek" />
                                     <h4 className="text-xl  mt-3 font-medium"><Link href="/home"> Login to portal</Link> </h4>
                                     <p className=" tracking-wide leading-relaxed  mt-3">
                                         Log in to manage your profile, track job applications,

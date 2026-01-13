@@ -1,64 +1,76 @@
 "use client"
 
 import React from "react"
-import {
-  Code2,
-  Megaphone,
-  Headphones,
-  LineChart,
-  Pen,
-  Brush,
-  Laptop,
-  Briefcase,
-} from "lucide-react";
 
- const AllIcon = (title = "") => {
 
-       const jobCategories = [
+ const AllIcon = ({title = ""}) => {
+
+const jobCategories = [
   {
-    name: "developer",
-    keywords: ["developer", "engineer", "software", "frontend", "backend", "fullstack"],
-    icon: <Code2 className="text-teal-600 w-6 h-6" />,
+    keywords: ["developer", "full stack", "frontend", "backend", "engineer", "programmer", "web3", "blockchain", "software"],
+    icon: "/icons/astronaut.png",
   },
   {
-    name: "marketing",
-    keywords: ["marketing", "social", "media", "ads", "promotion", "campaign"],
-    icon: <Megaphone className="text-orange-500 w-6 h-6" />,
+    keywords: ["marketing", "digital marketing", "seo", "manager", "promotion", "ads"],
+    icon: "/icons/bob-image.jpg",
   },
   {
-    name: "support",
-    keywords: ["support", "customer", "help", "service", "call"],
-    icon: <Headphones className="text-blue-500 w-6 h-6" />,
+    keywords: ["designer", "ui", "ux", "graphic", "creative"],
+    icon: "/icons/freelancer.png",
   },
   {
-    name: "sales",
+    keywords: ["support", "it support", "customer", "helpdesk"],
+    icon: "/icons/businesswoman.png",
+  },
+  {
     keywords: ["sales", "account", "business", "revenue"],
-    icon: <LineChart className="text-green-600 w-6 h-6" />,
+    icon: "/icons/firefighter.png",
   },
   {
-    name: "design",
-    keywords: ["design", "designer", "graphics", "ui", "ux", "illustrator"],
-    icon: <Brush className="text-purple-500 w-6 h-6" />,
+    keywords: ["writer", "technical writer", "content", "editor", "journalist"],
+    icon: "/icons/gamer.png",
   },
   {
-    name: "writing",
-    keywords: ["writer", "content", "copy", "editor", "blog"],
-    icon: <Pen className="text-amber-600 w-6 h-6" />,
+    keywords: ["manager", "product manager", "project manager"],
+    icon: "/icons/manager.png",
+  },
+  {
+    keywords: ["it", "system admin", "administrator", "cloud", "devops"],
+    icon: "/icons/hacker.png",
+  },
+  {
+    keywords: ["game", "game developer", "ai", "ai engineer"],
+    icon: "/icons/programmer.png",
   },
 ];
 
 
   const lowerTitle = title.toLowerCase();
 
-  let bestMatch = { score: 0, icon: <Briefcase className="text-3xl text-gray-500" /> };
+  // find best matching category
+  const match = jobCategories.find(cat =>
+    cat.keywords.some(keyword => lowerTitle.includes(keyword))
+  );
 
-  jobCategories.forEach((category) => {
-    // Count how many of that category’s keywords appear in the title
-    const score = category.keywords.filter((kw) => lowerTitle.includes(kw)).length;
-    if (score > bestMatch.score) bestMatch = { score, icon: category.icon };
-  });
+  const iconPath = match ? match.icon : "/icons/geek.png"; // fallback
+  return <img src={iconPath} alt={title} className="w-12 h-12" />;
 
-  return bestMatch.icon;
+
+
+
+
+
+  // const lowerTitle = title.toLowerCase();
+
+  // let bestMatch = { score: 0, icon: "/icons/geek.png" };
+
+  // jobCategories.forEach((category) => {
+  //   // Count how many of that category’s keywords appear in the title
+  //   const score = category.keywords.filter((kw) => lowerTitle.includes(kw)).length;
+  //   if (score > bestMatch.score) bestMatch = { score, icon: category.icon };
+  // });
+
+  // return bestMatch.icon;
 };
 
 export default AllIcon

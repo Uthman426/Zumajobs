@@ -7,12 +7,13 @@ import Categories from "../components/Jobcategories";
 import TransBack from "../components/TransparentBackground";
 import FeaturedJob from "../components/Featuredjobs";
 import Threepics from "@/components/Threehomepics";
+import { useRouter } from "next/navigation";
 
 
 export default function Home() {
 
 
-
+const router = useRouter()
 
 
 
@@ -29,11 +30,11 @@ export default function Home() {
           </div>
           <div className="mt-15">
             <div className="flex flex-row">
-              <h2 className="text-xl text-white ">Most Searches: </h2>
-              <nav className="ml-6 flex gap-3  underline pt- ">
-                <Link className="hover:text-teal-700 text-slate-300" href="#" onClick={(e) => e.preventDefault()} >Designing</Link>
-                <Link className="hover:text-teal-700 text-slate-300" href="#" onClick={(e) => e.preventDefault()}>Software Developer</Link>
-                <Link className="hover:text-teal-700 text-slate-300" href="#" onClick={(e) => e.preventDefault()}>Customer Service</Link>
+              <h2 className="text-xl font-semibold text-white ">Most Searches: </h2>
+              <nav className="ml-6 flex gap-3  underline text-gray-100 pt- italic skew-x-[-12deg]">
+                <Link className="hover:text-teal-500 " href="/job"  >Designing</Link>
+                <Link className="hover:text-teal-500 " href="/job" >Software Developer</Link>
+                <Link className="hover:text-teal-500 " href="/job" >Customer Service</Link>
 
 
                 {/* href={`/jobs/${designing}`}
@@ -41,12 +42,12 @@ export default function Home() {
             href={`/jobs/${costomer}`} */}
               </nav>
             </div>
-            <div className="h-13 bg-white mt-4 pl-5 rounded w-[96%]">
+            <div className="h-13 bg-white mt-4 pl-5 rounded w-[96%] flex">
               <input type="text"
                 placeholder="Search keyword..."
-                className=" h-14 w-[31%] bl-2  " />
+                className="  w-[31%] focus:outline-none  " />
 
-              <select name="" id="" className="h-12  w-[23%] border-l border-gray-200 pl-2">
+              <select name="" id="" className="h-12 focus:outline-none  w-[23%] border-l border-gray-200 pl-2">
                 <option value="">Select Category</option>
                 <option value="">Designing</option>
                 <option value="">Development</option>
@@ -56,7 +57,7 @@ export default function Home() {
                 <option value="">Human resources</option>
                 <option value="">IT(CSE)</option>
               </select>
-              <select name="" id="" className="h-12 text-grey pl-3  w-[23%] border-l border-gray-200">
+              <select name="" id="" className="h-12 text-grey pl-3 focus:outline-none  w-[23%] border-l border-gray-200">
                 <option value="">Select country</option>
                 <optgroup label="Africa">
                   <option value="">Nigeria</option>
@@ -69,7 +70,8 @@ export default function Home() {
                   <option value="">Spain</option>
                 </optgroup>
               </select>
-              <button className="bg-teal-700 h-14  text-white  w-[23%] rounded-r" >Search</button>
+              <div className="bg-teal-700 h-13 px-15 py-4  text-white cursor-pointer  w-[23%] rounded-r"
+              onClick={()=>router.push('/job')} >Search</div>
 
             </div>
 
@@ -131,10 +133,11 @@ export default function Home() {
 
             </div>
           </div>
-          <button className="h-12 w-35 ml-47 mt-6 text-white shadow-xl  bg-teal-700  hover:bg-teal-900 hover:text-slate-300 transition rounded hover:border-none">
+           <Link href={"/job"}>
+          <button className="h-12 w-35 ml-47 mt-6 text-white cursor-pointer shadow-xl  bg-teal-700  hover:bg-teal-900 hover:text-slate-300 transition rounded hover:border-none">
             Apply Now
           </button>
-
+         </Link>
         </div>
       </section>
       <section>

@@ -1,7 +1,10 @@
 "use client"
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import AllIcons from "@/components/JobIcons";
+import AllIcon from "@/components/JobIcons";
+import { useSearchParams } from "next/navigation";
+import { MapPin, Briefcase } from "lucide-react";
+
 
 
 const Jobs = () => {
@@ -12,8 +15,8 @@ const Jobs = () => {
     const [loading, setLoading] = useState('')
     const [filteredjobs, setFilteredjobs] = useState([])
     const [filterTypes, setFilterTypes] = useState({
-        "FULL_TIME": false,
-        "PART_TIME": false,
+        "Full-time": false,
+        "Part-time": false,
         Contract: false,
         Internship: false,
         Temporary: false,
@@ -24,13 +27,13 @@ const Jobs = () => {
         Senior: false
     })
     const [filterCategory, setFilterCategory] = useState({
-        "Software developer": false,
-        Development: false,
-        "Customer service": false,
-        Designing: false,
+        "Software Developer": false,
         Marketing: false,
-        Sales: false,
-        "Senior Developer": false 
+        Designer: false,
+        Engineering: false,
+        Data: false,
+        Product: false,
+        Security: false,
     })
 
     const [currentPage, setCurrentpage] = useState(1)
@@ -39,182 +42,179 @@ const Jobs = () => {
 
 
     useEffect(() => {
-        const options = {
-            method: 'GET',
-            url: 'https://jsearch.p.rapidapi.com/search',
-            params: {
-                query: 'developer jobs in chicago',
-                page: '1',
-                num_pages: '1',
-                country: 'us',
-                date_posted: 'all'
-            },
-            headers: {
-                'x-rapidapi-key': '61865e14c4msh84d4f016739b395p1e3bb9jsn59850f1a5e32',
-                'x-rapidapi-host': 'jsearch.p.rapidapi.com'
-            }
-        };
-        async function fetchData() {
-            try {
-                const response = await axios(options)
-                const data = response.data.data
-                setJob(data)
-                setFilteredjobs(data)
-            }
-            catch (error) {
-                setError("can't get job api")
-            }
-        }
+        fetch("/api/jobs")
+            .then(res => res.json())
+            .then(data => {
+                setJob(data.jobs)
+                setFilteredjobs(data.jobs)
+            })
+            .catch(err => console.error("error mounting api in job page", err))
 
-
-        fetchData()
 
     }, [])
 
+    // this code is for cross page filtering from jobcategory link till searchParams
+    const searchParams = useSearchParams();
+
     useEffect(() => {
+        const categoryFromUrl = searchParams.get("category");
+
+        if (categoryFromUrl) {
+            setFilterCategory(prev => {
+                const updated = { ...prev };
+
+                // reset all first
+                Object.keys(updated).forEach(key => {
+                    updated[key] = false;
+                });
+
+                // activate matching category
+                if (updated.hasOwnProperty(categoryFromUrl)) {
+                    updated[categoryFromUrl] = true;
+                }
+
+                return updated;
+            });
+        }
+    }, [searchParams]);
+
+
+    const applyFilters = () => {
+        let filtered = [...job];
+
+        // Type filter
         const selectedTypes = Object.keys(filterTypes).filter(t => filterTypes[t]);
-
         if (selectedTypes.length > 0) {
-            const filtered = job.filter(j =>
-                selectedTypes.includes(j.job_employment_type)
-            );
-
-            setFilteredjobs(filtered);
-        } else {
-            setFilteredjobs(job);
+            filtered = filtered.filter(j => selectedTypes.includes(j.type));
         }
 
+        // Level filter
+        const selectedLevels = Object.keys(filterLevel).filter(l => filterLevel[l]);
+        if (selectedLevels.length > 0) {
+            filtered = filtered.filter(j => selectedLevels.includes(j.level)); // make sure level exists in data
+        }
+
+        // Category filter
+        const selectedCategories = Object.keys(filterCategory).filter(c => filterCategory[c]);
+        if (selectedCategories.length > 0) {
+            filtered = filtered.filter(j => selectedCategories.includes(j.category));
+        }
+
+        // Search filter
+        if (Search.trim() !== "") {
+            filtered = filtered.filter(j => j.title.toLowerCase().includes(Search.toLowerCase()));
+        }
+
+        setFilteredjobs(filtered);
         setCurrentpage(1);
-    }, [filterTypes, job]);
-    useEffect(()=>{
-          const selectedLevel = Object.keys(filterLevel).filter(l => filterLevel[l])
-          if (selectedLevel.length > 0) {
-            const filtered = job.filter(j => 
-            selectedLevel.includes(j.job_level)
-         );
-         setFilteredjobs(filtered)
-        }
-         else 
-            setFilteredjobs(job)
-    },[filterLevel,job])
-
-    useEffect(()=>{
-        const selectedCategory = Object.keys(filterCategory).filter(c => filterCategory[c])
-        if (selectedCategory.length > 0)
-        {
-            const filtered = job.filter(c =>
-                selectedCategory.includes(c.job_title)
-            )
-            setFilteredjobs(filtered)
-        }
-        else 
-            setFilteredjobs(job)
-    },[filterCategory,job])
-
-
-
+    };
     useEffect(() => {
-        const searchedjob = job.filter(jobb => jobb.job_title.toLowerCase().includes(Search.toLowerCase()))
-        setFilteredjobs(searchedjob)
-        setCurrentpage(1)
-    }, [Search, job])
+        applyFilters();
+    }, [filterTypes, filterLevel, filterCategory, Search, job]);
 
 
-//     combining the three useffect together
-//     useEffect(() => {
-//   let results = [...job];
 
-//   // 1. SEARCH FILTER
-//   if (Search.trim() !== "") {
-//     results = results.filter(j =>
-//       j.job_title.toLowerCase().includes(Search.toLowerCase())
-//     );
-//   }
-
-//   // 2. TYPE FILTER
-//   const selectedTypes = Object.keys(filterTypes).filter(t => filterTypes[t]);
-//   if (selectedTypes.length > 0) {
-//     results = results.filter(j =>
-//       selectedTypes.includes(j.job_employment_type)
-//     );
-//   }
-
-//   // 3. LEVEL FILTER
-//   const selectedLevels = Object.keys(filterLevel).filter(l => filterLevel[l]);
-//   if (selectedLevels.length > 0) {
-//     results = results.filter(j =>
-//       selectedLevels.includes(j.job_level)
-//     );
-//   }
-
-//   // 4. CATEGORY FILTER
-//   const selectedCategories = Object.keys(filterCategory).filter(c => filterCategory[c]);
-//   if (selectedCategories.length > 0) {
-//     results = results.filter(j =>
-//       selectedCategories.includes(j.job_category)
-//     );
-//   }
-
-//   // SET FINAL FILTERED LIST
-//   setFilteredjobs(results);
-//   setCurrentpage(1);
-// }, [Search, filterTypes, filterLevel, filterCategory, job]);
+    //  if its only search you have in your page this is how to run it
+    // useEffect(() => {
+    //     const searchedjob = job.filter(jobb => jobb.title.toLowerCase().includes(Search.toLowerCase()))
+    //     setFilteredjobs(searchedjob)
+    //     setCurrentpage(1)
+    // }, [Search, job])
 
 
+    const totalPages = Math.ceil(filteredjobs.length / jobsPerpage);
     const start = (currentPage - 1) * jobsPerpage
     const end = start + jobsPerpage
-    // const currentJob = filteredjobs.slice(start, end)
+    const currentJob = filteredjobs.slice(start, end)
 
     // if it is one we do it this way
     // const anyTypeChecked = Object.values(filterTypes).some(v => v === true);
     const anyFilterChecked =
-  [...Object.values(filterTypes),
-   ...Object.values(filterLevel),
-   ...Object.values(filterCategory)
-  ].some(v => v === true);
+        [...Object.values(filterTypes),
+        ...Object.values(filterLevel),
+        ...Object.values(filterCategory)
+        ].some(v => v === true);
 
 
-    const currentJob = Search.trim() === "" && !anyFilterChecked ? filteredjobs.slice(start, end) : filteredjobs
+    // const currentJob = Search.trim() === "" && !anyFilterChecked ? filteredjobs.slice(start, end) : filteredjobs
 
 
     const toggleType = (type) => {
         setFilterTypes({ ...filterTypes, [type]: !filterTypes[type] });
     };
-    const toggleLevel = (level) =>{
-        setfilterLevel({...filterLevel,[level]: !filterLevel[level]})
+    const toggleLevel = (level) => {
+        setfilterLevel({ ...filterLevel, [level]: !filterLevel[level] })
     }
-    const toggeleCategory = (category) =>{
-        setFilterCategory ({...filterCategory,[category]: !filterCategory[category]})
+    const toggeleCategory = (category) => {
+        setFilterCategory({ ...filterCategory, [category]: !filterCategory[category] })
     }
 
-//     the three toggle in one
-//     const toggleFilter = (group, key) => {
-//   if (group === "type")
-//     setFilterTypes(prev => ({ ...prev, [key]: !prev[key] }));
+    //     the three toggle in one
+    //     const toggleFilter = (group, key) => {
+    //   if (group === "type")
+    //     setFilterTypes(prev => ({ ...prev, [key]: !prev[key] }));
 
-//   if (group === "level")
-//     setfilterLevel(prev => ({ ...prev, [key]: !prev[key] }));
+    //   if (group === "level")
+    //     setfilterLevel(prev => ({ ...prev, [key]: !prev[key] }));
 
-//   if (group === "category")
-//     setFilterCategory(prev => ({ ...prev, [key]: !prev[key] }));
-// };
-
-
+    //   if (group === "category")
+    //     setFilterCategory(prev => ({ ...prev, [key]: !prev[key] }));
+    // };
 
 
-//     const resetFilters = () => {
-//   setJobTypes({
-//     "Full-time": false,
-//     "Part-time": false,
-//     Contract: false,
-//     Internship: false,
-//     Temporary: false,
-//   });
 
-//   setSearch("");
 
-//   setFiltered(jobs);
-// };
+    //     const resetFilters = () => {
+    //   setJobTypes({
+    //     "Full-time": false,
+    //     "Part-time": false,
+    //     Contract: false,
+    //     Internship: false,
+    //     Temporary: false,
+    //   });
+
+    //   setSearch("");
+
+    //   setFiltered(jobs);
+    // };
+    const resetFilters = () => {
+        // 1) Reset Search input
+        SetSearch("");
+
+        // 2) Reset Type checkboxes (all false)
+        setFilterTypes({
+            "Full-time": false,
+            "Part-time": false,
+            Contract: false,
+            Internship: false,
+            Temporary: false,
+        });
+
+        // 3) Reset Level checkboxes (all false)
+        setfilterLevel({
+            Entry: false,
+            Mid: false,
+            Senior: false,
+        });
+
+        // 4) Reset Category checkboxes (all false)
+        setFilterCategory({
+            "Software Developer": false,
+            Marketing: false,
+            Designer: false,
+            Engineering: false,
+            Data: false,
+            Product: false,
+            Security: false,
+        });
+
+        // 5) Reset list back to all jobs
+        setFilteredjobs(job);
+
+        // 6) Go back to page 1
+        setCurrentpage(1);
+    };
+
 
 
 
@@ -223,64 +223,110 @@ const Jobs = () => {
 
     return (
         <div>
-            <div className="flex w-[75%] mx-auto">
-                <div>
-                    <h3>Featured Jobs</h3>
-                    <div className="mt-20 ">
+            <div className="flex w-[75%] mx-auto gap-10 bg-white">
+                <div className="mt-20 space-y-5 w-[70%]">
+                    <h1 className="text-2xl" >Featured Jobs</h1>
+                    <div className="space-y-5">
 
                         {
-                            currentJob.map((jobitem, index) => {
+
+                            currentJob.length === 0 ? (
+                                <div className="text-center text-gray-500 mt-10">
+                                    <p className="text-lg font-semibold">No related jobs found</p>
+                                    <p className="text-sm mt-2">
+                                        Try adjusting your filters or search keywords.
+                                    </p>
+                                </div>
+                            ) : (
+                                currentJob.map((jobitem, index) => {
 
 
-                                return (
-                                    <div
-                                        key={index}
-                                        className="w-[70%] bg-gray-100 mx-auto m-7 pt-10 pl-8 pr-6 flex-row justify-between border-l-3 rounded border-teal-700 h-35 shadow-xl flex">
+                                    return (
+                                        <div
+                                            key={index}
+                                            className="  bg-gray-100 gap-5  pt-10 pl-8 pr-6 flex-row justify-between border-l-3 rounded border-teal-700 h-55 shadow-xl flex">
 
-                                        <div className=" w-[5%]">
-                                            {AllIcons(jobitem.job_title)}
-                                        </div>
-                                        <div className=" w-[50%] -ml-10 ">
-                                            <h1 className=" font-semibold text-lg">
-                                                {jobitem.job_title}
-                                            </h1>
-                                            <div className="flex gap-4">
-                                                <span>{jobitem.job_city}</span>
-                                                <span>{jobitem.job_country}</span>
+                                            <div className=" ">
+                                                <AllIcon title={jobitem.title} />
+                                                {/* <img src={AllIcon({ title: "Frontend Developer" })} alt={job.title} /> */}
+
+                                            </div>
+                                            <div className=" w-[30%] space-y-3   ">
+                                                <h1 className=" font-semibold text-lg">
+                                                    {jobitem.title}
+                                                </h1>
+                                                <div className="space-y-1">
+                                                    <span className="flex gap-2 "><p className="pt-1"><MapPin size={18} color="gray" strokeWidth={3} /></p>{jobitem.location}</span>
+                                                    <span className="flex gap-2"><p className="pt-1"><Briefcase size={18} color="gray" strokeWidth={3} /></p>{jobitem.category}</span>
+                                                </div>
+
+
+
+                                            </div>
+                                            <div>
+                                                <p><span className="text-teal-700 text-bold text-base font-semibold">Type:</span>{jobitem.type}</p>
+                                                <p><span className="text-teal-700 text-bold text-base font-semibold">Level:</span>{jobitem.level}</p>
+                                            </div>
+                                            <div>
+                                                <button className="h-20 w-35 shadow-xl text-teal-700  border-2 border-teal-700  hover:bg-black hover:text-white rounded hover:border-none">
+                                                    Apply   <br />Now
+                                                </button>
                                             </div>
 
-
-
                                         </div>
-                                        <div>
-                                            <p><span className="text-teal-700 text-bold text-lg font-bold">Type:</span>{jobitem.job_employment_type}</p>
-                                            <p><span className="text-teal-700 text-bold text-lg font-bold">Time:</span>{jobitem.job_posted_at}</p>
-                                        </div>
-                                        <div>
-                                            <button className="h-12 w-35 shadow-xl border-2 border-teal-700  hover:bg-black hover:text-white rounded hover:border-none">
-                                                Apply Now
-                                            </button>
-                                        </div>
+                                    )
 
-                                    </div>
-                                )
-
-                            })
+                                })
+                            )
                         }
 
 
                     </div>
-                </div>
-                <div>
                     <div>
-                        <h3>Search by keywords</h3>
+                        {filteredjobs.length > 0 && (
+                            <div className="flex justify-center items-center gap-6 mt-10">
+
+                                <button
+                                    onClick={() => setCurrentpage(p => Math.max(p - 1, 1))}
+                                    disabled={currentPage === 1}
+                                    className="px-4 py-2 border rounded disabled:opacity-50"
+                                >
+                                    Prev
+                                </button>
+
+                                <span className="text-sm font-medium">
+                                    Page {currentPage} of {totalPages}
+                                </span>
+
+                                <button
+                                    onClick={() => setCurrentpage(p => Math.min(p + 1, totalPages))}
+                                    disabled={currentPage === totalPages}
+                                    className="px-4 py-2 border rounded disabled:opacity-50"
+                                >
+                                    Next
+                                </button>
+
+                            </div>
+                        )}
+
+                    </div>
+
+
+
+
+
+                </div>
+                <div className="mt-15 w-[30%] space-y-8">
+                    <div className=" bg-white rounded-lg shadow-sm border border-gray-100 p-6">
+                        <h3 className="text-xl font-semibold text-gray-800 mb-4">Search by keywords</h3>
                         <form action="">
-                            <input value={Search} onChange={(e) => SetSearch(e.target.value)} type="text" placeholder="Search here" />
+                            <input value={Search} onChange={(e) => SetSearch(e.target.value)} type="text" placeholder="Search here"
+                                className="w-full h-12 rounded-md border border-gray-200 bg-white pl-4 pr-12 text-sm outline-none focus:border-teal-600  " />
                         </form>
 
                     </div>
-                    <div>
-                        <h3 className="text-xl font-semibold mb-4">Job Type</h3>
+                    <div className="bg-white rounded-lg shadow-lg p-10 border-gray-100 ">
+                        <h3 className="text-xl font-base mb-4">Job Type</h3>
 
 
                         {Object.keys(filterTypes).map((type) => (
@@ -294,37 +340,53 @@ const Jobs = () => {
                             </label>
                         ))}
                     </div>
-                    <div>
-                        <h3 className="text-xl font-semibold mb-4">Job Level</h3>
+                    <div className="bg-white rounded-lg shadow-lg p-10 border-gray-100 ">
+                        <h3 className="text-xl font-base mb-4">Job Level</h3>
                         {
-                            Object.keys(filterLevel).map((level)=>
-                              <label key={level} className="flex items-center gap-2 mb-2">
-                                <input 
-                                type="checkbox" 
-                                checked={filterLevel[level]}
-                                onChange={() => toggleLevel(level)} />
-                                {level}
-                              </label>  
+                            Object.keys(filterLevel).map((level) =>
+                                <label key={level} className="flex items-center gap-2 mb-2">
+                                    <input
+                                        type="checkbox"
+                                        checked={filterLevel[level]}
+                                        onChange={() => toggleLevel(level)} />
+                                    {level}
+                                </label>
                             )
                         }
                     </div>
-                    <div>
-                        <h3 className="text-xl font-semibold mb-4">Job Category</h3>
+                    <div className="bg-white rounded-lg shadow-lg p-10 border-gray-100 ">
+                        <h3 className="text-xl font-base mb-4">Job Category</h3>
                         {
-                            Object.keys(filterCategory).map((category)=>
+                            Object.keys(filterCategory).map((category) =>
                                 <label key={category} className="flex items-center gap-2 mb-2"
                                 >
-                                    <input 
-                                    type="checkbox"
-                                    checked= {filterCategory[category]}
-                                    onChange={() =>toggeleCategory(category)} />
+                                    <input
+                                        type="checkbox"
+                                        checked={filterCategory[category]}
+                                        onChange={() => toggeleCategory(category)} />
                                     {category}
                                 </label>
                             )
                         }
                     </div>
+                    <div>
+                        <div className="pb-10">
+                            <button
+                                onClick={resetFilters}
+                                disabled={!anyFilterChecked && Search.trim() === ""}
+                                className="w-full h-12 rounded-md border-2 border-teal-700 text-teal-700 font-medium
+               hover:bg-teal-700 hover:text-white transition
+               disabled:opacity-50 disabled:cursor-not-allowed"
+                            >
+                                Reset Filter
+                            </button>
+                        </div>
+                        
+                    </div>
                 </div>
             </div>
+
+
 
         </div>
     )

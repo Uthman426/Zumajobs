@@ -11,10 +11,11 @@ const Breadcrumb = () => {
   const pathParts = pathname.split("/").filter((part) => part !== "");
 
   return (
-    <nav aria-label="Breadcrumb" className="bg-gray-100 py-3 px-5 rounded text-normal pl-35 text-gray-600">
+    <div className="bg-gray-100">
+    <nav aria-label="Breadcrumb" className="bg-gray-100 py-3 text-normal mx-auto w-[75%] text-gray-600">
       <ol className="flex space-x-2">
         <li>
-          <Link href="/" className="text-blue-600 hover:underline">
+          <Link href="/" className="text-blue-900 hover:underline">
             Home
           </Link>
         </li>
@@ -39,6 +40,7 @@ const Breadcrumb = () => {
         })}
       </ol>
     </nav>
+    </div>
   );
 };
 

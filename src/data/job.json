@@ -1,0 +1,226 @@
+{
+  "success": true,
+  "count": 20,
+  "jobs": [
+    {
+      "id": "job_001",
+      "title": "Full Stack Developer",
+      "location": "New York",
+      "category": "Software Developer",
+      "type": "Full-time",
+      "level": "Mid",
+      "postedAt": "2 weeks ago",
+      "company": "Teta Tech",
+      "applyUrl": "/apply/job_001"
+    },
+    {
+      "id": "job_002",
+      "title": "Digital Marketing Manager",
+      "location": "San Francisco",
+      "category": "Marketing Specialist",
+      "type": "Full-time",
+      "level": "Senior",
+      "postedAt": "1 week ago",
+      "company": "Zuma Marketing",
+      "applyUrl": "/apply/job_002"
+    },
+    {
+      "id": "job_003",
+      "title": "UI/UX Designer",
+      "location": "Austin",
+      "category": "Designer",
+      "type": "Contract",
+      "level": "Entry",
+      "postedAt": "2 days ago",
+      "company": "Creative Hub",
+      "applyUrl": "/apply/job_003"
+    },
+    {
+      "id": "job_004",
+      "title": "Backend Developer",
+      "location": "Seattle",
+      "category": "Software Developer",
+      "type": "Full-time",
+      "level": "Mid",
+      "postedAt": "1 week ago",
+      "company": "CloudCore",
+      "applyUrl": "/apply/job_004"
+    },
+    {
+      "id": "job_005",
+      "title": "Frontend Developer",
+      "location": "Remote",
+      "category": "Software Developer",
+      "type": "Full-time",
+      "level": "Entry",
+      "postedAt": "3 days ago",
+      "company": "Webify",
+      "applyUrl": "/apply/job_005"
+    },
+    {
+      "id": "job_006",
+      "title": "Product Manager",
+      "location": "Boston",
+      "category": "Product",
+      "type": "Full-time",
+      "level": "Senior",
+      "postedAt": "5 days ago",
+      "company": "BuildRight",
+      "applyUrl": "/apply/job_006"
+    },
+    {
+      "id": "job_007",
+      "title": "Mobile App Developer",
+      "location": "Remote",
+      "category": "Software Developer",
+      "type": "Contract",
+      "level": "Mid",
+      "postedAt": "1 week ago",
+      "company": "AppNest",
+      "applyUrl": "/apply/job_007"
+    },
+    {
+      "id": "job_008",
+      "title": "DevOps Engineer",
+      "location": "Chicago",
+      "category": "Engineering",
+      "type": "Full-time",
+      "level": "Senior",
+      "postedAt": "2 weeks ago",
+      "company": "InfraCloud",
+      "applyUrl": "/apply/job_008"
+    },
+    {
+      "id": "job_009",
+      "title": "Data Analyst",
+      "location": "New York",
+      "category": "Data",
+      "type": "Full-time",
+      "level": "Entry",
+      "postedAt": "4 days ago",
+      "company": "DataWorks",
+      "applyUrl": "/apply/job_009"
+    },
+    {
+      "id": "job_010",
+      "title": "Technical Writer",
+      "location": "Remote",
+      "category": "Content",
+      "type": "Contract",
+      "level": "Mid",
+      "postedAt": "6 days ago",
+      "company": "DocuTech",
+      "applyUrl": "/apply/job_010"
+    },
+    {
+      "id": "job_011",
+      "title": "QA Engineer",
+      "location": "Denver",
+      "category": "Quality Assurance",
+      "type": "Full-time",
+      "level": "Entry",
+      "postedAt": "1 week ago",
+      "company": "TestLab",
+      "applyUrl": "/apply/job_011"
+    },
+    {
+      "id": "job_012",
+      "title": "Cybersecurity Analyst",
+      "location": "Washington DC",
+      "category": "Security",
+      "type": "Full-time",
+      "level": "Senior",
+      "postedAt": "2 weeks ago",
+      "company": "SecureNet",
+      "applyUrl": "/apply/job_012"
+    },
+    {
+      "id": "job_013",
+      "title": "AI Engineer",
+      "location": "San Jose",
+      "category": "Artificial Intelligence",
+      "type": "Full-time",
+      "level": "Mid",
+      "postedAt": "3 days ago",
+      "company": "NeuroTech",
+      "applyUrl": "/apply/job_013"
+    },
+    {
+      "id": "job_014",
+      "title": "IT Support Specialist",
+      "location": "Dallas",
+      "category": "IT Support",
+      "type": "Full-time",
+      "level": "Entry",
+      "postedAt": "5 days ago",
+      "company": "HelpDesk Pro",
+      "applyUrl": "/apply/job_014"
+    },
+    {
+      "id": "job_015",
+      "title": "System Administrator",
+      "location": "Atlanta",
+      "category": "IT Infrastructure",
+      "type": "Full-time",
+      "level": "Mid",
+      "postedAt": "1 week ago",
+      "company": "NetSystems",
+      "applyUrl": "/apply/job_015"
+    },
+    {
+      "id": "job_016",
+      "title": "Blockchain Developer",
+      "location": "Remote",
+      "category": "Web3",
+      "type": "Contract",
+      "level": "Senior",
+      "postedAt": "2 days ago",
+      "company": "ChainLabs",
+      "applyUrl": "/apply/job_016"
+    },
+    {
+      "id": "job_017",
+      "title": "SEO Specialist",
+      "location": "Los Angeles",
+      "category": "Marketing",
+      "type": "Full-time",
+      "level": "Entry",
+      "postedAt": "6 days ago",
+      "company": "RankFast",
+      "applyUrl": "/apply/job_017"
+    },
+    {
+      "id": "job_018",
+      "title": "Cloud Engineer",
+      "location": "Phoenix",
+      "category": "Cloud Computing",
+      "type": "Full-time",
+      "level": "Mid",
+      "postedAt": "1 week ago",
+      "company": "SkyCompute",
+      "applyUrl": "/apply/job_018"
+    },
+    {
+      "id": "job_019",
+      "title": "Game Developer",
+      "location": "Los Angeles",
+      "category": "Game Development",
+      "type": "Contract",
+      "level": "Senior",
+      "postedAt": "4 days ago",
+      "company": "PlayForge",
+      "applyUrl": "/apply/job_019"
+    },
+    {
+      "id": "job_020",
+      "title": "Software Engineering Intern",
+      "location": "Remote",
+      "category": "Engineering",
+      "type": "Internship",
+      "level": "Entry",
+      "postedAt": "1 day ago",
+      "company": "FutureTech",
+      "applyUrl": "/apply/job_020"
+    }
+  ]
+}

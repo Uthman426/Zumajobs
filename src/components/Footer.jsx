@@ -2,7 +2,7 @@
 
 import React from "react"
 import Link from "next/link"
-import { Code2 } from "lucide-react"
+import { Send } from "lucide-react"
 
 
 const Footer = () => {
@@ -39,9 +39,9 @@ const Footer = () => {
             <h1 className="text-white text-lg font-bold">Get In touch</h1>
             <p className="mt-4 text-gray-400">Are you interested in jobs, need to get
               latest updates and information?</p>
-            <div className=" h-13 mt-5 justify-between flex  text-gray-400 ">
-              <input type="email" name="" id="" placeholder="Enter email" className=" pl-3 rounded bg-gray-700 w-[85%]"/>
-              <button className="bg-teal-700 w-17 h-13 rounded "><Code2/> </button>
+            <div className=" h-13 mt-5 justify-between rounded-lg flex  text-gray-400 ">
+              <input type="email" name="" id="" placeholder="Enter email" className=" pl-3  bg-gray-700 w-[85%]"/>
+              <div className="bg-teal-700 w-17 h-13 p-4 cursor-pointer "><Send size={25} color="white" strokeWidth={3}/></div>
             </div>
 
           </div>

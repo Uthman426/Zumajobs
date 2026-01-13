@@ -1,18 +1,19 @@
 import React from "react";
+import Link from "next/link";
 import {Brush, Code2, Headphones, Megaphone, ShoppingBag, Cpu, Smartphone, GraduationCap, Cog, Car} from "lucide-react"
 
 
 const categories = [
-  { title: "Designing", openings: 3, icon: Brush },
+  { title: "Designer", openings: 3, icon: Brush },
   { title: "Software developer", openings: 5, icon: Code2 },
   { title: "Customer service", openings: 5, icon: Headphones },
   { title: "Marketing", openings: 6, icon: Megaphone },
-  { title: "Sales", openings: 5, icon: ShoppingBag },
-  { title: "Development", openings: 5, icon: Cpu },
-  { title: "App developer", openings: 2, icon: Smartphone },
+  { title: "Security", openings: 5, icon: ShoppingBag },
+  { title: "Data", openings: 5, icon: Cpu },
+  { title: "Engineering", openings: 2, icon: Smartphone },
   { title: "Software trainee", openings: 1, icon: GraduationCap },
   { title: "Digital service", openings: 1, icon: Cog },
-  { title: "Automotive", openings: 1, icon: Car },
+  { title: "Product", openings: 1, icon: Car },
 ]
 
 
@@ -26,7 +27,9 @@ const Categories = ()=>{
                     const Icon = category.icon
 
                     return(
-                        <div key={index} className="bg- rounded shadow-sm w-55 h-25 p-5 bg-gray-200 relative z-50 hover:bg-gray-100 hover:shadow-lg hover:border hover:border-gray-300">
+                        <Link key={index}
+            href={`/job?category=${encodeURIComponent(category.title)}`}>
+                        <div  className="bg- rounded shadow-sm w-55 h-25 p-5 bg-gray-200 relative z-50 hover:bg-gray-100 hover:shadow-lg hover:border hover:border-gray-300">
                             <h1 className="font-semibold text-lg" >{category.title}</h1>
                             <p className="text-slate-500">Opening:{category.openings}</p>
 
@@ -35,6 +38,7 @@ const Categories = ()=>{
                             </div>
 
                         </div>
+                        </Link>
                     )
 
                 })
