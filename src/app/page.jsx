@@ -129,7 +129,7 @@ const router = useRouter()
             </div>
             <div className="w-[50%]">
 
-              <img src="/tetahub3.jpg" alt="" className="rounded h-70 w-125 " />
+              <img src="/Tetahub3.jpg" alt="" className="rounded h-70 w-125 " />
 
             </div>
           </div>
