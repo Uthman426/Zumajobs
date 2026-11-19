@@ -12,7 +12,7 @@ const Jobs = () => {
     const [jobApi, setJobapi] = useState([])
     const [error, setError] = useState(null)
     const [Search, SetSearch] = useState('')
-    const [loading, setLoading] = useState('')
+    const [loading, setLoading] = useState(true)
     const [filteredjobs, setFilteredjobs] = useState([])
     const [filterTypes, setFilterTypes] = useState({
         "Full-time": false,
@@ -41,17 +41,37 @@ const Jobs = () => {
 
 
 
-    useEffect(() => {
+    // useEffect(() => {
+    //     fetch("/api/jobs")
+    //         .then(res => res.json())
+    //         .then(data => {
+    //             setJob(data.jobs)
+    //             setFilteredjobs(data.jobs)
+    //         })
+    //         .catch(err => console.error("error mounting api in job page", err))
+
+
+    // }, [])
+        useEffect(() => {
+        setLoading(true)
+        setError(null)
         fetch("/api/jobs")
-            .then(res => res.json())
-            .then(data => {
-                setJob(data.jobs)
-                setFilteredjobs(data.jobs)
+            .then(res => {
+                if (!res.ok) throw new Error(`Failed to fetch jobs (${res.status})`)
+                return res.json()
             })
-            .catch(err => console.error("error mounting api in job page", err))
-
-
+            .then(data => {
+                const jobsList = data.jobs || []
+                setJob(jobsList)
+                setFilteredjobs(jobsList)
+            })
+            .catch(err => {
+                console.error("error mounting api in job page", err)
+                setError("Unable to load jobs right now. Please try again later.")
+            })
+            .finally(() => setLoading(false))
     }, [])
+
 
     // this code is for cross page filtering from jobcategory link till searchParams
     const searchParams = useSearchParams();
@@ -229,6 +249,15 @@ const Jobs = () => {
                     <div className="space-y-5">
 
                         {
+                                                         loading ? (
+                                <div className="text-center text-gray-500 mt-10">
+                                    <p className="text-lg font-semibold">Loading jobs...</p>
+                                </div>
+                            ) : error ? (
+                                <div className="text-center text-red-600 mt-10">
+                                    <p className="text-lg font-semibold">{error}</p>
+                                </div>
+                            ) :
 
                             currentJob.length === 0 ? (
                                 <div className="text-center text-gray-500 mt-10">
